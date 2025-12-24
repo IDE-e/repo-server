@@ -17,7 +17,7 @@ export class RequestController {
   }
 
   @Delete()
-  remove(@Query("id") id?: string) {
-    return this.service.remove(id ? Number(id) : undefined);
+  remove(@Query("id") id?: number) {
+    return this.service.remove(id);
   }
 }
