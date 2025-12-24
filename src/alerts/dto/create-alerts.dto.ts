@@ -1,9 +1,9 @@
-import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { AlertLevel } from '../alert.type';
+import { IsIn, IsOptional, IsString, MinLength } from "class-validator";
+import { AlertLevel } from "../alerts.type";
 
 export class CreateAlertDto {
   @IsOptional()
-  @IsEnum(AlertLevel)
+  @IsIn(["INFO", "WARN", "ERROR", "CRITICAL"])
   level?: AlertLevel;
 
   @IsOptional()
@@ -12,6 +12,7 @@ export class CreateAlertDto {
 
   @IsOptional()
   @IsString()
+  @MinLength(1)
   message?: string;
 
   @IsOptional()

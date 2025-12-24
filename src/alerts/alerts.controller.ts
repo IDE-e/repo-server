@@ -1,49 +1,39 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  NotFoundException,
-  Patch,
   Post,
+  Patch,
+  Delete,
+  Body,
   Query,
-  Param,
-  ParseIntPipe,
-} from '@nestjs/common';
-import { AlertsService } from './alerts.service';
-import { CreateAlertDto } from './dto/create-alert.dto';
-import { AlertLevel } from './alert.type';
+} from "@nestjs/common";
+import { AlertsService } from "./alerts.service";
+import { CreateAlertDto } from "./dto/create-alerts.dto";
+import { GetAlertsQueryDto } from "./dto/get-alerts.dto";
+import { PatchAlertDto } from "./dto/patch-alerts.dto";
 
-@Controller('alerts')
+@Controller("alerts")
 export class AlertsController {
-  constructor(private readonly alertsService: AlertsService) {}
+  constructor(private readonly service: AlertsService) {}
 
-  // GET /alerts?level=WARN&ack=false
+  // GET /api/alerts?level=WARN&ack=false
   @Get()
-  getAlerts(@Query('level') level?: AlertLevel, @Query('ack') ack?: string) {
-    return this.alertsService.findAll(level, ack);
+  getAlerts(@Query() query: GetAlertsQueryDto) {
+    return this.service.findAll(query);
   }
 
-  // POST /alerts
   @Post()
-  createAlert(@Body() dto: CreateAlertDto) {
-    return this.alertsService.create(dto);
+  create(@Body() body: CreateAlertDto) {
+    return this.service.create(body);
   }
 
-  // PATCH /alerts/:id  { acknowledged: true }
-  @Patch(':id')
-  patchAck(
-    @Param('id', ParseIntPipe) id: number,
-    @Body('acknowledged') acknowledged: boolean,
-  ) {
-    const result = this.alertsService.updateAck(id, acknowledged);
-    if (!result) throw new NotFoundException('Alert not found');
-    return result;
+  @Patch()
+  patch(@Body() body: PatchAlertDto) {
+    return this.service.patchAck(Number(body.id), body.acknowledged);
   }
 
-  // DELETE /alerts (전체 삭제)
   @Delete()
-  clearAlerts() {
-    return this.alertsService.clearAll();
+  clear() {
+    return this.service.clearAll();
   }
 }
