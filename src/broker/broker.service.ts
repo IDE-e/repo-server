@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { BrokerEntry, BrokerStatus, makeSeedBrokers } from "./broker.type";
-import { CreateBrokerDto } from "./dto/create-broker-dto";
+import { CreateBrokerDto } from "./dto/create-broker.dto";
 
 @Injectable()
 export class BrokerService {
