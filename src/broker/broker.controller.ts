@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
 import { BrokerService } from "./broker.service";
-import { GetBrokerDto } from "./dto/get-broker-dto";
-import { CreateBrokerDto } from "./dto/create-broker-dto";
+import { GetBrokerDto } from "./dto/get-broker.dto";
+import { CreateBrokerDto } from "./dto/create-broker.dto";
 
 @Controller("brokers")
 export class BrokerController {
