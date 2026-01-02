@@ -1,6 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
+import {
+  ApiResponseInterceptor,
+  ApiExceptionFilter,
+} from "./common/http/api-response";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +27,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   );
+
+  app.useGlobalInterceptors(new ApiResponseInterceptor());
+  app.useGlobalFilters(new ApiExceptionFilter());
 
   // Next랑 3000 포트 겹치기 때문에 4000 포트로 변경
   await app.listen(process.env.PORT ?? 4000);
